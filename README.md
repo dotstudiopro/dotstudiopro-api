@@ -48,10 +48,10 @@ Get an array of recommended videos for a particular video ID.
 Get an array with all of the published channels in a company.
 
 ### get_channel($slug, $category, $detail = 'partial', $child_slug = '')
-**$slug** _String_ The slug of the channel we wish to call
-**$category** _String_ The category of the channel we are trying to call
-**$detail** _String_ The level of detail we want from the channel call
-**$child_slug** _String_ The child channel slug, if we need to call a child channel
+* **$slug** _String_ The slug of the channel we wish to call
+* **$category** _String_ The category of the channel we are trying to call
+* **$detail** _String_ The level of detail we want from the channel call
+* **$child_slug** _String_ The child channel slug, if we need to call a child channel
 
 Get an array with a specific channel's info.
 
@@ -96,10 +96,10 @@ Get the 2-letter country code from the user's IP.  Wrapper for `get_country()` m
 
 ### dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
 
-**$curl_url** _String_ The URL to do the cUrl request to
-**$curl_request_type** _String_ The type of request, generally POST or GET
-**$curl_post_fields** _String_ The fields we want to POST, if it's a POST request
-**$curl_header** _Object_ Any necessary header values, like an API token
+* **$curl_url** _String_ The URL to do the cUrl request to
+* **$curl_request_type** _String_ The type of request, generally POST or GET
+* **$curl_post_fields** _String_ The fields we want to POST, if it's a POST request
+* **$curl_header** _Object_ Any necessary header values, like an API token
 
 A wrapper for cURL functionality to reduce the code needed to make calls.
 
