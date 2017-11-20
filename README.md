@@ -29,7 +29,8 @@ $token = dspdev_api_check();
 // Set the token we get back from the check
 $dspdev_api_class->set_token($token);
 // Make sure we have a country for any API calls to channels
-$dspdev_api_class->get_country();```
+$dspdev_api_class->get_country();
+```
 
 dotstudioPRO_API Methods
 --------
