@@ -1,0 +1,30 @@
+{
+  "name": "dotstudiopro-owl-carousel",
+  "version": "1.0.0",
+  "description": "Wordpress Plugin Implementation of OwlCarousel2 Javascript plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotstudiopro/dotstudioPRO-Carousel.git"
+  },
+  "author": "Scott C. Lonis, Matt Armstrong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dotstudiopro/dotstudioPRO-Carousel/issues"
+  },
+  "homepage": "https://github.com/dotstudiopro/dotstudioPRO-Carousel#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "node-sass": "^4.2.0"
+  },
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0"
+  }
+}

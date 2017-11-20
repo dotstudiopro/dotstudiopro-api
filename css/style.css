@@ -1,0 +1,413 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.eot?v=4.1.0'); /* IE9 Compat Modes */
+  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'), /* Modern Browsers */
+       url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');/* Legacy iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+ /*============Grid==========================*/
+
+.ds-row {
+	display: flex;
+}
+.ds-col-8 {
+    width: 66.66666667%;
+    position: relative;
+    min-height: 1px;
+    /* padding-left: 15px; */
+    padding-right: 15px;
+    float: left;
+ }
+.ds-col-4 {
+    width: 33.33333333%;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    /* padding-right: 15px; */
+    float: left;
+ }
+
+@media screen and (max-width:1620px){
+    .og-fullimg .channel-poster{
+        margin-left:-80px;
+    }
+}
+@media screen and (max-width:1500px){
+    .og-expander-inner{
+        max-height:530px;
+    }
+    .og-fullimg .channel-poster{
+        margin-left:-125px;
+    }
+}
+@media screen and (max-width:1500px){
+    .og-expander-inner{
+        max-height:475px;
+    }
+    .og-fullimg .channel-poster{
+        margin-left:-185px;
+    }
+}
+
+/* ===========Tools=========================*/
+.ds-video-headliner-duration {
+	display: block;
+}
+
+.ds-commenting{
+	display: block;
+	width: 70%;
+	margin: auto;
+}
+
+.ds-commenting-sidebar{
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+
+.ds-sharepad {
+	display: block;
+	margin: 0px;
+	float:right;
+}
+.ds-sharepad li {
+	list-style: none;
+	float: left;
+	margin-right: 10px;
+}
+#loading {
+	position:fixed;
+	top:20px;
+	left:20px;
+	background:#309864;
+	color:white;
+	display:none;
+	padding: 10px;
+}
+
+.ds-button {
+    color: #fff;
+    background-color: #309864;
+    border-color: #2a8458;
+    display: block;
+    float: left;
+    margin: 10px 30px 0px 0px;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    border-radius:8px;
+}
+.ds-button:hover {
+    text-decoration:none;
+	color: white;
+	background-color:#209869;
+}
+.ds-more {
+	text-align: center;
+	display: block;
+	/* width: 90%; */
+    margin: auto;
+}
+.ds-more:hover {
+	cursor: pointer;
+}
+/* ===========Categories ===================*/
+.ds-cat {
+	list-style: none;
+}
+.ds-cat li {
+	position: relative;
+    float: left;
+    width: 50%;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.ds-cat .delay {
+	/* display: none; */
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 1000;
+    color: #eee;
+    width: 99%;
+    height: 60px;
+    padding: 5px 10px;
+    margin: 1px 0 1px 0;
+    list-style: none;
+    cursor: pointer;
+   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0.65+0,0+100;Neutral+Density */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+.ds-cat h1 {
+	position: absolute;
+	color: #eee;
+	top: 1px;
+    left: 10px;
+}
+
+/* ===========Channels =====================*/
+.ds-details {
+    position: absolute;
+    top: 10%;
+    left: 60%;
+    z-index: 1;
+    height: 100%;
+    padding: 0 40px 0 20px;
+    overflow: hidden;
+}
+
+.ds-channelmetalist {
+	display: block;
+    padding-left: 0;
+    margin: 0 0 30px 0;
+    list-style-type: none;
+}
+.ds-channelmetalist li{
+	float: left;
+    width: auto;
+    height: 20px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.ds-channel-description {
+	margin-bottom: 10px;
+	display: block;
+    clear:both;
+}
+
+.ds-channelmetalist li + li:before {
+    padding-right: 5px;
+    content: "| ";
+}
+.ds-channelmetalist h2 {
+	line-height: 1;
+}
+
+
+/* ===========Fluid iFrame =================*/
+
+.ds-video-fluidMedia {
+    position: relative;
+    padding-bottom: 56.25%; /* proportion value to aspect ratio 16:9 (9 / 16 = 0.5625 or 56.25%) */
+    height: 0;
+    overflow: hidden;
+}
+
+.ds-video-fluidMedia iframe {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.ds-video-headliner {
+	margin-bottom: 24px;
+}
+
+.ds-metabox {
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+	padding: 15px 15px 15px 15px;
+	margin-bottom: 30px;
+}
+.ds-metabox hr{
+	margin: 0 0 05em;
+}
+/*===========Tabs==========================*/
+ul.ds-tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+ul.ds-tabs li{
+	background: none;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.ds-tabs li.current{
+	box-shadow: 0 -1px 2px rgba(0,0,0,.1);
+}
+
+.ds-tab-content{
+	display: none;
+	padding: 15px;
+}
+
+.ds-tab-content.current{
+	display: inherit;
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
+/*===========Playlists ====================*/
+
+.ds-videometalist {
+	display: block;
+    padding-left: 0;
+    margin: 0 0 30px 0;
+    list-style-type: none;
+}
+
+.ds-videometalist li{
+	float: left;
+    width: auto;
+    height: 20px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    text-transform: uppercase;
+    vertical-align: middle;
+
+}
+.ds-videometalist li + li:before {
+    padding-right: 5px;
+    content: "| ";
+}
+.ds-video-headliner-description {
+    display:block;
+    padding:10px;
+    overflow:hidden;
+}
+.ds-video-headliner-title {
+	line-height: 1;
+}
+.ds-video-thumbnails {
+	display: block;
+	margin: auto;
+	clear:both;
+}
+
+.ds-video-thumbnails .selected {
+    cursor: default;
+}
+.ds-video-thumbnails .selected img {
+    opacity: 0.4;
+}
+.ds-video-thumbnails .selected a {
+    display: none;
+}
+.ds-video-thumbnails .selected label {
+    opacity: 0;
+}
+.ds-video-thumbnails h3 {
+	line-height: 20px;
+    margin-top: 20px;
+}
+.ds-video-thumbnails li {
+/* 	position: relative; */
+	width: 28%;
+    height:375px;
+    overflow: hidden;
+    max-height:375px;
+    padding: 0;
+    margin: 0px 21px 0px 21px;
+    cursor: pointer;
+    float: left;
+    list-style-type: none;
+}
+
+.ds-overlay {
+	position: relative;
+}
+
+.ds-overlay .fa {
+	position: absolute;
+    right: 42%;
+    top: -106px;
+    font-size: 60px;
+    color: rgba(255, 255, 255, 0);
+    z-index: 1;
+}
+.ds-overlay .fa:hover {
+	color: rgba(255, 255, 255, 1);
+}
+.ds-overlay label {
+	/* display: none; */
+    position: absolute;
+    bottom: 0px;
+    /* left: 0; */
+   /*  z-index: 1000; */
+   	color:#eee; 
+    width: 100%;
+    padding: 5px 10px;
+    margin: 1px 0 1px 0;
+    list-style: none;
+    cursor: pointer;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.65+100 */
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+
+}
+.ds-video-description {
+    display: list-item;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+    .ds-video-thumbnails li {
+        width: 52%;
+    }
+}
+@media (max-width: 868px) {
+    .ds-channel-description {
+        display: none;
+	}
+	.ds-overlay .fa {
+		top: -100px;
+	}
+    .ds-commenting {
+        width: 100%;
+    }
+
+}
+@media (max-width: 560px) {
+	.ds-video-thumbnails {
+		padding: 0px;
+	}
+	.ds-video-thumbnails li{
+		/* width: 95%; */
+		margin:0px;
+		width: 100%;
+	}
+    .ds-details {
+        left:0px;
+    }
+    .ds-channel-description {
+	   display: none;
+	}
+	.ds-overlay .fa {
+		top: -125px;
+	}
+	.ds-cat li {
+    width: 100%;
+    margin-right:0px;
+    float: none;
+	}
+}

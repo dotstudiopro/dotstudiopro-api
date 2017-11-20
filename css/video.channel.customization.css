@@ -1,0 +1,125 @@
+/*
+video.channel.customization.css
+
+USAGE: use this file to customize the video player, playlist, and channel 
+page styles 
+
+*/
+
+
+/* STANDARD MODE PLAYLIST SCROLLBAR COLORS */
+
+.ds-playlist-standard-mode::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-thumb {
+  background: #002e66;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-thumb:hover {
+  background: #005bcc;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-thumb:active {
+  background: #e0e0e0;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-track {
+  background: #0080ff;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-track:hover {
+  background: #0c30c0;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-track:active {
+  background: #0080ff;
+}
+.ds-playlist-standard-mode::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+
+.ds-playlist-theater-outer-container {
+	margin:15px;
+}
+
+.ds-playlist-theater-inner-container {
+		clear: both;
+		overflow-y:hidden;
+		background-color: #fff;
+    height: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border-top-left-radius:0;
+    display: block;
+}
+
+
+.ds-playlist-theater-outer-container label {
+		padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #fff;
+    color: #002E66;
+    margin-bottom: 0;
+    position: relative;
+    top: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
+
+@media (max-width: 600px) { 
+	h1.ds-video-headliner-title {
+		font-size:18px;
+	}
+	span.ds-video-headliner-description {
+		font-size:14px;
+	}
+
+	.ds-metabox .ds-videometalist li {
+		font-size:11px;
+	}
+
+	.ds-video-thumbnails li h3 {
+		font-size:18px;
+	}
+
+}
+
+@media (min-width: 600px) and (max-width: 900px) { 
+	h1.ds-video-headliner-title {
+		font-size:28px;
+	}
+	span.ds-video-headliner-description {
+		font-size:18px;
+	}
+
+	.ds-video-thumbnails li h3 {
+		font-size:24px;
+	}
+
+	.ds-metabox .ds-videometalist li {
+		font-size:14px;
+	}
+
+}
+
+
+
+@media(max-width: 1000px) {
+	ul.ds-sharepad {
+		float:left;
+	}
+	.ds-sharepad i {
+		font-size:14px;
+	}
+}

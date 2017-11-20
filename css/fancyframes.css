@@ -1,0 +1,17 @@
+.widget_text {display:none;}
+.iframe_container {position:relative;bottom:0;display:block;left:0;margin:auto;max-width:100%;right:0;top:0;width:100%;height:auto;}
+.iframe_thumb{bottom:0;display:block;left:0;margin:auto;max-width:100%;position:relative;right:0;top:0;width:100%;height:auto;-webkit-filter: brightness(.8);}
+.iframe_vid {width:100%;max-width:100%;height:auto;position:relative!important;border:0px;}
+.fa.fa-play-circle-o.iframe_fa {
+	position: absolute;
+	z-index: 100;
+	font-size: 100px;
+	cursor: pointer;
+	top: calc(50% - 25px);
+	left: 50%;
+	transform:translate(-50%,-50%);
+}
+.fa.fa-play-circle-o.iframe_fa:hover {color:#c0c0c0!important;}
+.iframe_spinner_container {left:0px; top:0px;width: 100%;height: 100%;position: absolute;z-index: 1000;background-color: rgba(0,0,0,0.9);}
+.iframe_spinner {width:100px;height:100px;position:relative;background:url(../images/ring.gif); background-size:100%;margin: 20% auto}
+.hidden {display:none;}
