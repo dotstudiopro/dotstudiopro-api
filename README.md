@@ -26,7 +26,7 @@ Used to get a new access token via the dotstudioPRO API
 
 ### set_token($token)
 
-*$token* _String_ The access token
+**$token** _String_ The access token
 
 Set the access token in the class object
 
@@ -36,22 +36,22 @@ Get the 2-letter country code of the current user and save it in the class objec
 
 ### get_recommended($video_id, $rec_size = 8)
 
-*$video_id* _String_ The video id we need to base recommended videos off of
-*$rec_size* _Integer_ The number of items we want to get back
+**$video_id** _String_ The video id we need to base recommended videos off of
+**$rec_size** _Integer_ The number of items we want to get back
 
 Get an array of recommended videos for a particular video ID.
 
 ### get_channels($detail = 'partial')
 
-*$detail* _String_ The level of detail we want from the channel call
+**$detail** _String_ The level of detail we want from the channel call
 
 Get an array with all of the published channels in a company.
 
 ### get_channel($slug, $category, $detail = 'partial', $child_slug = '')
-*$slug* _String_ The slug of the channel we wish to call
-*$category* _String_ The category of the channel we are trying to call
-*$detail* _String_ The level of detail we want from the channel call
-*$child_slug* _String_ The child channel slug, if we need to call a child channel
+**$slug** _String_ The slug of the channel we wish to call
+**$category** _String_ The category of the channel we are trying to call
+**$detail** _String_ The level of detail we want from the channel call
+**$child_slug** _String_ The child channel slug, if we need to call a child channel
 
 Get an array with a specific channel's info.
 
@@ -61,13 +61,13 @@ Get an array with all of the categories in a company.
 
 ### get_category($category)
 
-*$category* _String_ The slug of the category we are getting information for
+**$category** _String_ The slug of the category we are getting information for
 
 Get info on a specific category.
 
 ### get_video($video_id)
 
-*$video_id* _String_ The ID of the video you're trying to get info for
+**$video_id** _String_ The ID of the video you're trying to get info for
 
 Get the info for a particular video, including title and various metadata.
 
@@ -96,16 +96,16 @@ Get the 2-letter country code from the user's IP.  Wrapper for `get_country()` m
 
 ### dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
 
-*$curl_url* _String_ The URL to do the cUrl request to
-*$curl_request_type* _String_ The type of request, generally POST or GET
-*$curl_post_fields* _String_ The fields we want to POST, if it's a POST request
-*$curl_header* _Object_ Any necessary header values, like an API token
+**$curl_url** _String_ The URL to do the cUrl request to
+**$curl_request_type** _String_ The type of request, generally POST or GET
+**$curl_post_fields** _String_ The fields we want to POST, if it's a POST request
+**$curl_header** _Object_ Any necessary header values, like an API token
 
 A wrapper for cURL functionality to reduce the code needed to make calls.
 
 ### dspdev_api_verify_post_var($var)
 
-*$var* _String_ The name of the posted field
+**$var** _String_ The name of the posted field
 
 Checks to see if a `$_POST` variable is set, and returns it if so.  Otherwise, it returns an empty string.
 
