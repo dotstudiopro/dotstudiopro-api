@@ -24,10 +24,6 @@ The API class must be instantiated via the following:
 
 ```// Set up our class to connect with the DSP API
 $dspdev_api_class = new dotstudioPRO_API();
-// Check to make sure we have a current token
-$token = dspdev_api_check();
-// Set the token we get back from the check
-$dspdev_api_class->set_token($token);
 // Make sure we have a country for any API calls to channels
 $dspdev_api_class->get_country();
 ```
@@ -44,6 +40,10 @@ Used to get a new access token via the dotstudioPRO API
 * **$token** _String_ The access token
 
 Set the access token in the class object
+
+### api_token_check()
+
+Check if we have an API access token, and it's current.  If it isn't, get a new one.
 
 ### get_country()
 
@@ -92,10 +92,6 @@ Get the IP of the current user; used in the `get_country()` call
 
 Misc Functions
 --------
-
-### dspdev_api_check()
-
-Check if we have an API access token, and it's current.  If it isn't, get a new one.
 
 ### dspdev_api_check_api_key_set()
 

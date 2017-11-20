@@ -31,7 +31,7 @@ class dotstudioPRO_API {
 		} else {
 			$r = json_decode($result->response);
 			if($r->success){
-				$this->token = $r->token;
+				$token = $r->token;
 				return $r->token;
 			} else {
 				return false;
@@ -47,7 +47,24 @@ class dotstudioPRO_API {
 	 * @return String|Boolean Returns the 2 letter country code, or false if there was an issue
 	 */
 	function set_token($token) {
-		$this->token = $token;
+		$token = $token;
+	}
+
+	/**
+	 * Check if we have a token and if it is expired, and get a new one if expired or missing
+	 *
+	 * @return String|Bool The access token or false if something went wrong
+	 */
+	function api_token_check()
+	{
+	    $token = get_option('dspdev_api_token');
+	    $token_time = !$token ? 0 : get_option('dspdev_api_token_time');
+	    $difference = floor((time() - $token_time) / 84600);
+	    if (!$token || $difference >= 25) {
+	        $token = dspdev_api_new_token();
+	        if(empty($token)) return false;
+	    }
+	    return $token;
 	}
 
 	/**
@@ -56,6 +73,9 @@ class dotstudioPRO_API {
 	 * @return String|Boolean Returns the 2 letter country code, or false if there was an issue
 	 */
 	function get_country() {
+
+		$token = $this->api_token_check();
+
 		/** DEV MODE **/
 
 		$dev_check = get_option("dspdev_api_development_check");
@@ -70,14 +90,14 @@ class dotstudioPRO_API {
 		/** END DEV MODE **/
 
 		// If we don't have a token, we can't get a country
-		if(empty($this->token)) return false;
+		if(empty($token)) return false;
 
 		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/country",
 			"POST", "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"ip\"\r\n\r\n".$this->get_ip()."\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n\r\n-----011000010111000001101001--",
 			array(
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"x-access-token:".$this->token
+				"x-access-token:".$token
 			));
 
 		if ($result->err) {
@@ -102,8 +122,10 @@ class dotstudioPRO_API {
 	 * @return Array Returns an array of recommended videos, or an empty array if something is wrong or there are no recommended videos
 	 */
 	function get_recommended($video_id, $rec_size = 8) {
+
+		$token = $this->api_token_check();
 		// If we don't have a token, we can't access the API
-		if(empty($this->token)) return array();
+		if(empty($token)) return array();
 		// If we don't have a video id, we can't get a recommended list
 		if(empty($video_id)) return array();
 
@@ -113,7 +135,7 @@ class dotstudioPRO_API {
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:". $this->token
+				"x-access-token:". $token
 		));
 
 		if ($result->err) {
@@ -137,8 +159,10 @@ class dotstudioPRO_API {
 	 */
 	function get_channels($detail = 'partial') {
 
+		$token = $this->api_token_check();
+
 		// If we have no token, or we have no country, the API call will fail, so we return an empty array
-		if(!$this->token || !$this->country) return array();
+		if(!$token || !$this->country) return array();
 
 		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/channels/".$this->country."?detail=" . $detail,
 			"GET", "",
@@ -146,7 +170,7 @@ class dotstudioPRO_API {
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$this->token
+				"x-access-token:".$token
 			));
 
 		if ($result->err) {
@@ -172,8 +196,10 @@ class dotstudioPRO_API {
 	 * @return Array Returns an array of with the channel object in it, or an empty array if something is wrong or there is no channel
 	 */
 	function get_channel($slug, $category, $detail = 'partial', $child_slug = '') {
+
+		$token = $this->api_token_check();
 		// If we have no token, no country, no category, or no slug, the API call will fail, so we return an empty array
-		if(!$this->token || !$this->country || empty($slug) || empty($category)) return array();
+		if(!$token || !$this->country || empty($slug) || empty($category)) return array();
 
 		if(!empty($child_slug)){
 			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$slug."/".$child_slug."/?detail=" . $detail;
@@ -187,7 +213,7 @@ class dotstudioPRO_API {
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$this->token
+				"x-access-token:".$token
 			));
 
 		if ($result->err) {
@@ -208,8 +234,10 @@ class dotstudioPRO_API {
 	 * @return Array Returns an array of with the categories, or an empty array if something is wrong or there are no categories
 	 */
 	function get_categories() {
+
+		$token = $this->api_token_check();
 		// If we have no token, or we have no country, the API call will fail, so we return an empty array
-		if(!$this->token || !$this->country) return array();
+		if(!$token || !$this->country) return array();
 
 		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/categories/".$this->country,
 			"GET", "",
@@ -217,7 +245,7 @@ class dotstudioPRO_API {
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$this->token
+				"x-access-token:".$token
 			));
 
 		if ($result->err) {
@@ -240,8 +268,10 @@ class dotstudioPRO_API {
 	 * @return Object Returns an object with the category info, or an empty object if something went wrong
 	 */
 	function get_category($category) {
+
+		$token = $this->api_token_check();
 		// If we don't have a token, country, or category, the API call will fail
-		if(!$this->token || !$this->country || !$category) return array();
+		if(!$token || !$this->country || !$category) return array();
 
 		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/categories/".$this->country."/".$category,
 			"GET", "",
@@ -249,7 +279,7 @@ class dotstudioPRO_API {
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$this->token
+				"x-access-token:".$token
 			));
 
 		if ($result->err) {
@@ -272,15 +302,17 @@ class dotstudioPRO_API {
 	 * @return Object Returns an object with the video, or an empty object if something went wrong
 	 */
 	function get_video($video_id) {
+
+		$token = $this->api_token_check();
 		// If we don't have a token, country, or video id, the API call will fail
-		if(!$this->token || !$this->country || !$video_id) return array();
+		if(!$token || !$this->country || !$video_id) return array();
 
 		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/video/play2/" . $video_id,
 			"GET", "",
 			array(
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"x-access-token:" . $this->token
+				"x-access-token:" . $token
 			));
 
 		if ($result->err) {

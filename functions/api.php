@@ -7,29 +7,8 @@
 
 // Set up our class to connect with the DSP API
 $dspdev_api_class = new dotstudioPRO_API();
-// Check to make sure we have a current token
-$token = dspdev_api_check();
-// Set the token we get back from the check
-$dspdev_api_class->set_token($token);
 // Make sure we have a country for any API calls to channels
 $dspdev_api_class->get_country();
-
-/**
- * Check if we have a token and if it is expired, and get a new one if expired or missing
- *
- * @return String|Bool The access token or false if something went wrong
- */
-function dspdev_api_check()
-{
-    $token = get_option('dspdev_api_token');
-    $token_time = !$token ? 0 : get_option('dspdev_api_token_time');
-    $difference = floor((time() - $token_time) / 84600);
-    if (!$token || $difference >= 25) {
-        $token = dspdev_api_new_token();
-        if(empty($token)) return false;
-    }
-    return $token;
-}
 
 /**
  * Nag the admin if we don't have an API key, since we need one to use the plugin
