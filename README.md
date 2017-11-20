@@ -11,105 +11,105 @@ Installation
 --------
 
 1. Create a [dotstudioPRO account](http://dotstudiopro.com).
-2. Once logged in, go to the *User Account* section and get your **API key**.
+2. Once logged in, go to the *User Account##### section and get your **API key**.
 3. Install dotstudioPRO Wordpress Plugin from your Wordpress dashboard or unzip the plugin archive in the `wp-content/plugins` directory.
-4. Activate the plugin through the *Plugins* menu in Wordpress.
-5. Go to the **dotstudioPRO** left menu configuration page and fill in your **API key**.
+4. Activate the plugin through the *Plugins##### menu in Wordpress.
+5. Go to the **dotstudioPRO*##### left menu configuration page and fill in your **API key**.
 6. Start using the provided class.
 
 dotstudioPRO_API Methods
 --------
 
-##### get_token()
+### get_token()
 
 Used to get a new access token via the dotstudioPRO API
 
-##### set_token($token)
+### set_token($token)
 
-* $token String The access token
+##### $token String The access token
 
 Set the access token in the class object
 
-##### get_country()
+### get_country()
 
 Get the 2-letter country code of the current user and save it in the class object
 
-##### get_recommended($video_id, $rec_size = 8)
+### get_recommended($video_id, $rec_size = 8)
 
-* $video_id String The video id we need to base recommended videos off of
-* $rec_size Integer The number of items we want to get back
+##### $video_id String The video id we need to base recommended videos off of
+##### $rec_size Integer The number of items we want to get back
 
 Get an array of recommended videos for a particular video ID.
 
-##### get_channels($detail = 'partial')
+### get_channels($detail = 'partial')
 
-* $detail String The level of detail we want from the channel call
+##### $detail String The level of detail we want from the channel call
 
 Get an array with all of the published channels in a company.
 
-##### get_channel($slug, $category, $detail = 'partial', $child_slug = '')
-* $slug String The slug of the channel we wish to call
-* $category String The category of the channel we are trying to call
-* $detail String The level of detail we want from the channel call
-* $child_slug String The child channel slug, if we need to call a child channel
+### get_channel($slug, $category, $detail = 'partial', $child_slug = '')
+##### $slug String The slug of the channel we wish to call
+##### $category String The category of the channel we are trying to call
+##### $detail String The level of detail we want from the channel call
+##### $child_slug String The child channel slug, if we need to call a child channel
 
 Get an array with a specific channel's info.
 
-##### get_categories()
+### get_categories()
 
 Get an array with all of the categories in a company.
 
-##### get_category($category)
+### get_category($category)
 
-* $category String The slug of the category we are getting information for
+##### $category String The slug of the category we are getting information for
 
 Get info on a specific category.
 
-##### get_video($video_id)
+### get_video($video_id)
 
-* $video_id String The ID of the video you're trying to get info for
+##### $video_id String The ID of the video you're trying to get info for
 
 Get the info for a particular video, including title and various metadata.
 
-##### get_ip()
+### get_ip()
 
 Get the IP of the current user; used in the `get_country()` call
 
 Misc Functions
 --------
 
-##### dspdev_api_check()
+### dspdev_api_check()
 
 Check if we have an API access token, and it's current.  If it isn't, get a new one.
 
-##### dspdev_api_check_api_key_set()
+### dspdev_api_check_api_key_set()
 
 Admin nag to make sure the api key is set.
 
-##### dspdev_api_new_token()
+### dspdev_api_new_token()
 
 Get a new API token.
 
-##### dspdev_api_get_country()
+### dspdev_api_get_country()
 
 Get the 2-letter country code from the user's IP.  Wrapper for `get_country()` method.
 
-##### dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
+### dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
 
-* $curl_url String The URL to do the cUrl request to
-* $curl_request_type String The type of request, generally POST or GET
-* $curl_post_fields String The fields we want to POST, if it's a POST request
-* $curl_header Object Any necessary header values, like an API token
+##### $curl_url String The URL to do the cUrl request to
+##### $curl_request_type String The type of request, generally POST or GET
+##### $curl_post_fields String The fields we want to POST, if it's a POST request
+##### $curl_header Object Any necessary header values, like an API token
 
 A wrapper for cURL functionality to reduce the code needed to make calls.
 
-##### dspdev_api_verify_post_var($var)
+### dspdev_api_verify_post_var($var)
 
-* $var The name of the posted field
+##### $var The name of the posted field
 
 Checks to see if a `$_POST` variable is set, and returns it if so.  Otherwise, it returns an empty string.
 
-##### dspdev_api_no_country()
+### dspdev_api_no_country()
 
 Admin nag to notify that we can't get the country code.  This generally means that you are developing on local.
 
