@@ -30,21 +30,6 @@ function dspdev_api_check_api_key_set()
 }
 
 /**
- * Get a new token from the API key we have
- *
- * @return void
- */
-function dspdev_api_new_token()
-{
-    // Acquire an API token and save it for later use.
-    global $dspdev_api_class;
-    $token = $dspdev_api_class->get_token();
-    update_option('dspdev_api_token', $token);
-    update_option('dspdev_api_token_time', time());
-    return $token;
-}
-
-/**
  * Get the current user's country based on IP
  *
  * @return void

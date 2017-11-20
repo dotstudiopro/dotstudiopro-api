@@ -51,6 +51,20 @@ class dotstudioPRO_API {
 	}
 
 	/**
+	 * Get a new token from the API key we have
+	 *
+	 * @return void
+	 */
+	function api_new_token()
+	{
+	    // Acquire an API token and save it for later use.
+	    $token = $this->get_token();
+	    update_option('dspdev_api_token', $token);
+	    update_option('dspdev_api_token_time', time());
+	    return $token;
+	}
+
+	/**
 	 * Check if we have a token and if it is expired, and get a new one if expired or missing
 	 *
 	 * @return String|Bool The access token or false if something went wrong
@@ -61,7 +75,7 @@ class dotstudioPRO_API {
 	    $token_time = !$token ? 0 : get_option('dspdev_api_token_time');
 	    $difference = floor((time() - $token_time) / 84600);
 	    if (!$token || $difference >= 25) {
-	        $token = dspdev_api_new_token();
+	        $token = $this->api_new_token();
 	        if(empty($token)) return false;
 	    }
 	    return $token;

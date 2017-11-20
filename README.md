@@ -41,6 +41,10 @@ Used to get a new access token via the dotstudioPRO API
 
 Set the access token in the class object
 
+### api_new_token()
+
+Get a new API token.
+
 ### api_token_check()
 
 Check if we have an API access token, and it's current.  If it isn't, get a new one.
@@ -96,10 +100,6 @@ Misc Functions
 ### dspdev_api_check_api_key_set()
 
 Admin nag to make sure the api key is set.
-
-### dspdev_api_new_token()
-
-Get a new API token.
 
 ### dspdev_api_get_country()
 
