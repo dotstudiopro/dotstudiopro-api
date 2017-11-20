@@ -45,5 +45,7 @@ function dspdev_api_key_change()
     // If the api key is posted, but hasn't changed, nothing to do here.
     if ($api == $_POST['dspdev_api_key'] && !isset($_POST['dspdev_token_reset'])) return;
 
-    dspdev_api_new_token();
+    global $dspdev_api_class;
+
+    $dspdev_api_class->api_new_token();
 }
