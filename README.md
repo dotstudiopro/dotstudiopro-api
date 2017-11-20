@@ -26,7 +26,7 @@ Used to get a new access token via the dotstudioPRO API
 
 ### set_token($token)
 
-**$token** _String_ The access token
+* **$token** _String_ The access token
 
 Set the access token in the class object
 
@@ -36,14 +36,14 @@ Get the 2-letter country code of the current user and save it in the class objec
 
 ### get_recommended($video_id, $rec_size = 8)
 
-**$video_id** _String_ The video id we need to base recommended videos off of
-**$rec_size** _Integer_ The number of items we want to get back
+* **$video_id** _String_ The video id we need to base recommended videos off of
+* **$rec_size** _Integer_ The number of items we want to get back
 
 Get an array of recommended videos for a particular video ID.
 
 ### get_channels($detail = 'partial')
 
-**$detail** _String_ The level of detail we want from the channel call
+* **$detail** _String_ The level of detail we want from the channel call
 
 Get an array with all of the published channels in a company.
 
@@ -61,13 +61,13 @@ Get an array with all of the categories in a company.
 
 ### get_category($category)
 
-**$category** _String_ The slug of the category we are getting information for
+* **$category** _String_ The slug of the category we are getting information for
 
 Get info on a specific category.
 
 ### get_video($video_id)
 
-**$video_id** _String_ The ID of the video you're trying to get info for
+* **$video_id** _String_ The ID of the video you're trying to get info for
 
 Get the info for a particular video, including title and various metadata.
 
@@ -105,7 +105,7 @@ A wrapper for cURL functionality to reduce the code needed to make calls.
 
 ### dspdev_api_verify_post_var($var)
 
-**$var** _String_ The name of the posted field
+* **$var** _String_ The name of the posted field
 
 Checks to see if a `$_POST` variable is set, and returns it if so.  Otherwise, it returns an empty string.
 
