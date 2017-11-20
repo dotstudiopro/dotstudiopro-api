@@ -1,7 +1,7 @@
 <?php
 
 /*
-Plugin Name: dotStudioPRO API Connector
+Plugin Name: dotStudioPRO API Class
 Plugin URI: #
 Description: This plugin provides a connector class to the dotstudioPRO API for use in plugin/theme development
 Version: 1.00
