@@ -28,23 +28,90 @@ Used to get a new access token via the dotstudioPRO API
 
 * $token String The access token
 
-Set the access token in the object
+Set the access token in the class object
 
-##### Single Channels with or without Sidebar
+##### get_country()
 
-This template displays a dotstudioPRO channel.
+Get the 2-letter country code of the current user and save it in the class object
 
+##### get_recommended($video_id, $rec_size = 8)
 
-Other Settings
+* $video_id String The video id we need to base recommended videos off of
+* $rec_size Integer The number of items we want to get back
+
+Get an array of recommended videos for a particular video ID.
+
+##### get_channels($detail = 'partial')
+
+* $detail String The level of detail we want from the channel call
+
+Get an array with all of the published channels in a company.
+
+##### get_channel($slug, $category, $detail = 'partial', $child_slug = '')
+* $slug String The slug of the channel we wish to call
+* $category String The category of the channel we are trying to call
+* $detail String The level of detail we want from the channel call
+* $child_slug String The child channel slug, if we need to call a child channel
+
+Get an array with a specific channel's info.
+
+##### get_categories()
+
+Get an array with all of the categories in a company.
+
+##### get_category($category)
+
+* $category String The slug of the category we are getting information for
+
+Get info on a specific category.
+
+##### get_video($video_id)
+
+* $video_id String The ID of the video you're trying to get info for
+
+Get the info for a particular video, including title and various metadata.
+
+##### get_ip()
+
+Get the IP of the current user; used in the `get_country()` call
+
+Misc Functions
 --------
 
-Once the plugin is installed a new tab will appears in Wordpress admin panel. Other settings include.
+##### dspdev_api_check()
 
-1. **Facebook ID** activates facebook sharing and meta values. It also enables you curate comments
-2. **Single Channel Template** gives you a choice between a single channel page with or without including your sidebar.
-3. **Theme** gives a choice between a dark and light theme.
+Check if we have an API access token, and it's current.  If it isn't, get a new one.
 
-Demo Site
---------
+##### dspdev_api_check_api_key_set()
 
-[http://wordpress.dotstudiopro.com/](http://wordpress.dotstudiopro.com/)
+Admin nag to make sure the api key is set.
+
+##### dspdev_api_new_token()
+
+Get a new API token.
+
+##### dspdev_api_get_country()
+
+Get the 2-letter country code from the user's IP.  Wrapper for `get_country()` method.
+
+##### dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
+
+* $curl_url String The URL to do the cUrl request to
+* $curl_request_type String The type of request, generally POST or GET
+* $curl_post_fields String The fields we want to POST, if it's a POST request
+* $curl_header Object Any necessary header values, like an API token
+
+A wrapper for cURL functionality to reduce the code needed to make calls.
+
+##### dspdev_api_verify_post_var($var)
+
+* $var The name of the posted field
+
+Checks to see if a `$_POST` variable is set, and returns it if so.  Otherwise, it returns an empty string.
+
+##### dspdev_api_no_country()
+
+Admin nag to notify that we can't get the country code.  This generally means that you are developing on local.
+
+
+

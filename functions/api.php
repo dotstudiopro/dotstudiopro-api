@@ -84,7 +84,7 @@ function dspdev_api_get_country()
  * @param string $curl_post_fields The fields we want to POST, if it's a POST request
  * @param object $curl_header Any necessary header values, like an API token
  *
- * @return void
+ * @return Object The curl response object
  */
 function dspdev_api_run_curl_command($curl_url, $curl_request_type, $curl_post_fields, $curl_header)
 {

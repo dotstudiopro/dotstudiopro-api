@@ -97,7 +97,7 @@ class dotstudioPRO_API {
 	 * Get a list of recommended videos for a given video ID
 	 *
 	 * @param string $video_id The video id we need to base recommended videos off of
-	 * @param string $rec_size The number of items we want to get back
+	 * @param integer $rec_size The number of items we want to get back
 	 *
 	 * @return Array Returns an array of recommended videos, or an empty array if something is wrong or there are no recommended videos
 	 */
@@ -129,7 +129,7 @@ class dotstudioPRO_API {
 	}
 
 	/**
-	 * Get an array with all of the channels in an account
+	 * Get an array with all of the published channels in a company
 	 *
 	 * @param string $detail The level of detail we want from the channel call
 	 *
@@ -165,6 +165,7 @@ class dotstudioPRO_API {
 	 * Get an array with a specific channel
 	 *
 	 * @param string $slug The slug of the channel we wish to call
+	 * @param string $category The category of the channel we are trying to call
 	 * @param string $detail The level of detail we want from the channel call
 	 * @param string $child_slug The child channel slug, if we need to call a child channel
 	 *
@@ -202,7 +203,7 @@ class dotstudioPRO_API {
 	}
 
 	/**
-	 * Get an array with all of the categories in an account
+	 * Get an array with all of the categories in a company
 	 *
 	 * @return Array Returns an array of with the categories, or an empty array if something is wrong or there are no categories
 	 */
