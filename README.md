@@ -17,6 +17,20 @@ Installation
 5. Go to the **dotstudioPRO** left menu configuration page and fill in your **API key**.
 6. Start using the provided class.
 
+Instantiation
+--------
+
+The API class must be instantiated via the following:
+
+```// Set up our class to connect with the DSP API
+$dspdev_api_class = new dotstudioPRO_API();
+// Check to make sure we have a current token
+$token = dspdev_api_check();
+// Set the token we get back from the check
+$dspdev_api_class->set_token($token);
+// Make sure we have a country for any API calls to channels
+$dspdev_api_class->get_country();```
+
 dotstudioPRO_API Methods
 --------
 
