@@ -31,10 +31,10 @@ Copyright 2016-2017 dotStudioPRO
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 if (!class_exists('dotstudioPRO_API')) {
-
     require_once "class.dspdev_api_commands.php";
-
 }
+
+require_once "functions.php";
 
 // Plugin Update Checker
 require 'plugin-update-checker/plugin-update-checker.php';
@@ -44,26 +44,15 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     'dspdev-api'
 );
 
-$uri = $_SERVER['REQUEST_URI'];
-
-if (strpos($uri, 'wp-admin') === false) {
-
-    add_action('init', 'ds_check');
-
-}
-
-add_action('wp_enqueue_scripts', 'ds_plugin_style');
-add_action( 'wp_enqueue_scripts', 'ds_owl_carousel' );
-
 /** Add Menu Entry **/
-function dot_studioz_menu()
+function dspdev_api_menu()
 {
 
     add_menu_page('dotstudioPRO API Options', 'dotstudioPRO API Options', 'manage_options', 'dspdev-api-options', 'dspdev_api_menu_page', plugins_url( 'images/dsp.png', __FILE__ ));
 
 }
 
-add_action('admin_menu', 'dot_studioz_menu');
+add_action('admin_menu', 'dspdev_api_menu');
 
 // Set up the page for the plugin, pulling the content based on various $_GET global variable contents
 function dspdev_api_menu_page()
@@ -83,6 +72,6 @@ function dspdev_api_menu_page()
 
 /** Save Admin Menu Options **/
 
-add_action("init", "ds_save_admin_options");
+add_action("init", "dspdev_api_save_admin_options");
 
 /** End Save Admin Menu Options **/

@@ -1,594 +1,305 @@
 <?php
 
-class DotStudioz_Commands{
+class dotstudioPRO_API {
 
 	public $country;
+	public $api_key;
+	public $token;
 
-function curl_command($command, $args = array()){
-
-	global $wpdb, $post;
-
-	$api_key = get_option('ds_api_key');
-
-	if(!$api_key || strlen($api_key) < 1){
-
-		return array();
-
+	function __construct() {
+		$this->api_key = get_option('dspdev_api_key');
 	}
 
+	/**
+	 * Get an access token from the API
+	 *
+	 * @return String|Boolean The API access token, or false if it couldn't get one
+	 */
+	function get_token() {
+		// If we don't have an api key, we can't get a token
+		if(empty($this->api_key)) return false;
 
-	if($command == "token"){
-
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/token",
-			"POST", "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n".$api_key."\r\n-----011000010111000001101001--",
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/token",
+			"POST", "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"key\"\r\n\r\n".$this->api_key."\r\n-----011000010111000001101001--",
 			array(
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 			));
 
 		if ($result->err) {
-
-			// Maybe log this somewhere?
 			return false;
-
 		} else {
 			$r = json_decode($result->response);
-
 			if($r->success){
-
-
-
+				$this->token = $r->token;
 				return $r->token;
-
 			} else {
-
-				// Maybe log this somewhere?
 				return false;
-
 			}
 		}
+	}
 
-	} else if($command == 'country'){
+	/**
+	 * Set the token variable if we have the value outside of the class
+	 *
+	 * @param string $token The token to set
+	 *
+	 * @return String|Boolean Returns the 2 letter country code, or false if there was an issue
+	 */
+	function set_token($token) {
+		$this->token = $token;
+	}
 
+	/**
+	 * Get the country code of the user
+	 *
+	 * @return String|Boolean Returns the 2 letter country code, or false if there was an issue
+	 */
+	function get_country() {
 		/** DEV MODE **/
 
-		$dev_check = get_option("ds_development_check");
+		$dev_check = get_option("dspdev_api_development_check");
 
-		$dev_country = get_option("ds_development_country");
+		$dev_country = get_option("dspdev_api_development_country");
 
 		if($dev_check){
-
 			$this->country = $dev_country;
-
 			return $this->country;
-
 		}
 
 		/** END DEV MODE **/
 
+		// If we don't have a token, we can't get a country
+		if(empty($this->token)) return false;
 
-
-		$token = get_option('ds_curl_token');
-
-		if(!$token){
-
-			return false;
-
-		}
-
-		$curl = curl_init();
-
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/country",
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/country",
 			"POST", "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"ip\"\r\n\r\n".$this->get_ip()."\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"token\"\r\n\r\n\r\n-----011000010111000001101001--",
 			array(
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"x-access-token:".$token
+				"x-access-token:".$this->token
 			));
 
-
-
 		if ($result->err) {
-
-			$error = "cURL Error: $err";
-
+			return false;
 		} else {
 			$r = json_decode($result->response);
-
-
-
 			if($r->success){
-
 				$this->country = $r->data->countryCode;
-
 				return $this->country;
-
-
-
 			} else {
-
-				// Maybe log this somewhere?
 				return false;
-
 			}
 		}
+	}
 
-	} else if ($command == 'recommended') {
-			// return a list of recommended videos for a given video
-			// requires a video ID and list size (default = 8)
+	/**
+	 * Get a list of recommended videos for a given video ID
+	 *
+	 * @param string $video_id The video id we need to base recommended videos off of
+	 * @param string $rec_size The number of items we want to get back
+	 *
+	 * @return Array Returns an array of recommended videos, or an empty array if something is wrong or there are no recommended videos
+	 */
+	function get_recommended($video_id, $rec_size = 8) {
+		// If we don't have a token, we can't access the API
+		if(empty($this->token)) return array();
+		// If we don't have a video id, we can't get a recommended list
+		if(empty($video_id)) return array();
 
-
-		$token = get_option('ds_curl_token');
-		$video_id = $args['video_id'];
-		$rec_size = $args['rec_size'];
-
-
-		if(!$token || !$video_id) {
-				return array();
-		}
-
-		$curl = curl_init();
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/search/recommendation?q=".$video_id."&size=".$rec_size."&from=0",
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/search/recommendation?q=".$video_id."&size=".$rec_size."&from=0",
 			"GET", "",
 			array(
 				"cache-control: no-cache",
 				"content-type: multipart/form-data; boundary=---011000010111000001101001",
 				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:". $token
+				"x-access-token:". $this->token
 		));
 
 		if ($result->err) {
-			// you fucked up, homes...
-			return array(false,$result->err);
-
+			return array();
 		} else {
 			$r = json_decode($result->response);
 			if($r->success) {
-
-					return $r->data->hits;
+				return $r->data->hits;
 			} else {
-					// Maybe log this somewhere?
-					// yea... maybe.
-					return false;
+				return array();
 			}
 		}
-
-
-	} else if($command == 'all-channels'){
-
-		$token = get_option('ds_curl_token');
-
-		ds_get_country();
-
-		if(!$token || !$this->country){
-
-			return array();
-
-		}
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/channels/".$this->country."?detail=partial",
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if($r->success){
-
-				// set_transient('all-channels', $r->channels, 600);
-
-				return $r->channels;
-
-			} else {
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
-	}  else if($command == 'single-channel'){
-
-		$token = get_option('ds_curl_token');
-
-		$category = get_post_meta($post->ID, "ds-category", TRUE);
-
-		$duplicate = get_post_meta($post->ID, "ds-duplicate", false);
-
-		ds_get_country();
-
-		if(!$category){
-
-			$category = 'featured';
-
-		}
-
-		if(!$token){
-
-			return array();
-
-		}
-
-		$channel_check_grab = get_page_by_path('channels');
-
-		$channel_parent = $channel_check_grab->ID;
-
-		$channel_grandparent = wp_get_post_parent_id( $post->post_parent );
-
-		$revision = channel_revision_check();
-
-		if($duplicate && (int) $duplicate !== 0){
-
-			$pop = explode( "-", $post->post_name );
-
-			array_pop( $pop );
-
-		}
-
-		$postname = $duplicate && (int) $duplicate !== 0 ? implode( "-", $pop ) : $post->post_name;
-
-		if($channel_grandparent == $channel_parent && !$revision){
-
-			$parent = get_post($post->post_parent);
-
-			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$parent->post_name."/".$postname."/?detail=partial";
-
-		} else {
-
-			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$postname."/?detail=partial";
-
-		}
-
-		// die('single-channel-' . $category . '-' . (!empty($parent) ? $parent->post_name : "none") . '-' . $postname);
-		// $trans = get_transient('single-channel-' . $category . '-' . (!empty($parent) ? $parent->post_name : "none") . '-' . $postname);
-		// if($trans) return $trans;
-
-		$curl = curl_init();
-
-		$channel_name = $post->post_name;
-
-		$result = ds_run_curl_command($url,
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if($r->success){
-
-				set_transient('single-channel-' . $category . '-' . (!empty($parent) ? $parent->post_name : "none") . '-' . $postname, $r->channels, 600);
-
-				return $r->channels;
-
-			} else {
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
-	}  else if($command == 'single-channel-by-id'){
-
-		$token = get_option('ds_curl_token');
-
-		$channel_check_grab = get_page_by_path("channels/".$args['channel_slug']);
-
-		$category = get_post_meta($channel_check_grab->ID, "ds-category", TRUE);
-
-		ds_get_country();
-
-		if(!$category){
-
-			$category = 'featured';
-
-		}
-
-		if(!$token){
-
-			return array();
-
-		}
-
-		$postname = $channel_check_grab->post_name;
-
-		$trans = get_transient('single-channel-' . $category . '-' . $postname . '-partial');
-		if($trans) return $trans;
-
-		$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$postname."/?detail=partial";
-
-		$curl = curl_init();
-
-		$channel_name = $post->post_name;
-
-		$result = ds_run_curl_command($url,
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if($r->success){
-
-				set_transient('single-channel-' . $category . '-' . $postname . '-partial', $r->channels, 600);
-
-				return $r->channels;
-
-			} else {
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
-	} else if($command == 'parent-channel'){
-
-		$token = get_option('ds_curl_token');
-
-		$category = get_post_meta($post->ID, "ds-category", TRUE);
-
-		ds_get_country();
-
-		if(!$category){
-
-			$category = 'featured';
-
-		}
-
-		if(!$token){
-
-			return array();
-
-		}
-
-		$channel_check_grab = get_page_by_path('channels');
-
-		$channels_parent = $channel_check_grab->ID;
-
-		$channel_grandparent = wp_get_post_parent_id( $post->post_parent );
-
-		if($channel_grandparent == $channels_parent){
-
-			$parent = get_post($post->post_parent);
-
-			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$parent->post_name."/?detail=partial";
-
-		} else {
-
-			return false;
-
-		}
-
-		$curl = curl_init();
-
-		$channel_name = $post->post_name;
-
-		$result = ds_run_curl_command($url,
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if(isset($r->channels[0])){
-
-				return $r->channels[0];
-
-			} else {
-
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
-	} else if($command == 'all-categories'){
-
-		$token = get_option('ds_curl_token');
-
-		ds_get_country();
-
-		if(!$token || !$this->country){
-
-			return array();
-
-		}
-
-		$curl = curl_init();
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/categories/".$this->country,
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if(count($r->categories)){
-
-				return $r->categories;
-
-			} else {
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
-	} else if($command == 'single-category'){
-
-		$token = get_option('ds_curl_token');
-
-		$cat = $args['category'];
-
-		if(!$token || !$this->country || !$cat){
-
-			return array();
-
-		}
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/channels/".$this->country."/".$cat."?detail=partial",
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
-				"x-access-token:".$token
-			));
-
-		if ($result->err) {
-
-			//"cURL Error #:" . $err;
-			// Not sure what to do with this one.		Hm...
-
-		} else {
-			$r = json_decode($result->response);
-
-			if(isset($r->message)){
-
-				$message = $r->message;
-
-			} else {
-
-				$message = '';
-
-			}
-
-			if(isset($r->channels) && count($r->channels) && strpos($message, "Error") !== TRUE){
-
-				return $r->channels;
-
-			} else {
-
-				// Maybe log this somewhere?
-				$empty_obj = new stdClass();
-				return $empty_obj;
-
-			}
-		}
-
-	} else if($command == 'play'){
-
-		/** DEV MODE **/
-
-		$dev_check = get_option("ds_development_check");
-
-		$dev_country = get_option("ds_development_country");
-
-		if($dev_check){
-
-			$this->country = $dev_country;
-
-		}
-
-		/** END DEV MODE **/
-
-		$video = $args['video'];
-
-		$token = get_option('ds_curl_token');
-
-		if(!$token){
-
-			return false;
-
-		}
-
-		$curl = curl_init();
-
-
-		$result = ds_run_curl_command("http://api.myspotlight.tv/video/play2/$video",
-			"GET", "",
-			array(
-				"cache-control: no-cache",
-				"content-type: multipart/form-data; boundary=---011000010111000001101001",
-				"x-access-token:".$token
-			));
-
-
-
-		if ($result->err) {
-
-			$error = "cURL Error: $err";
-
-		} else {
-			$r = json_decode($result->response);
-
-
-
-			if($r->_id){
-
-				return $r;
-
-			} else {
-
-				// Maybe log this somewhere?
-				return false;
-
-			}
-		}
-
 	}
 
-}
+	/**
+	 * Get an array with all of the channels in an account
+	 *
+	 * @param string $detail The level of detail we want from the channel call
+	 *
+	 * @return Array Returns an array of channels, or an empty array if something is wrong or there are no channels
+	 */
+	function get_channels($detail = 'partial') {
 
+		// If we have no token, or we have no country, the API call will fail, so we return an empty array
+		if(!$this->token || !$this->country) return array();
+
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/channels/".$this->country."?detail=" . $detail,
+			"GET", "",
+			array(
+				"cache-control: no-cache",
+				"content-type: multipart/form-data; boundary=---011000010111000001101001",
+				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
+				"x-access-token:".$this->token
+			));
+
+		if ($result->err) {
+			return array();
+		} else {
+			$r = json_decode($result->response);
+			if($r->success){
+				return $r->channels;
+			} else {
+				return array();
+			}
+		}
+	}
+
+	/**
+	 * Get an array with a specific channel
+	 *
+	 * @param string $slug The slug of the channel we wish to call
+	 * @param string $detail The level of detail we want from the channel call
+	 * @param string $child_slug The child channel slug, if we need to call a child channel
+	 *
+	 * @return Array Returns an array of with the channel object in it, or an empty array if something is wrong or there is no channel
+	 */
+	function get_channel($slug, $category, $detail = 'partial', $child_slug = '') {
+		// If we have no token, no country, no category, or no slug, the API call will fail, so we return an empty array
+		if(!$this->token || !$this->country || empty($slug) || empty($category)) return array();
+
+		if(!empty($child_slug)){
+			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$slug."/".$child_slug."/?detail=" . $detail;
+		} else {
+			$url = "http://api.myspotlight.tv/channels/".$this->country."/$category/".$slug."/?detail=" . $detail;
+		}
+
+		$result = dspdev_api_run_curl_command($url,
+			"GET", "",
+			array(
+				"cache-control: no-cache",
+				"content-type: multipart/form-data; boundary=---011000010111000001101001",
+				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
+				"x-access-token:".$this->token
+			));
+
+		if ($result->err) {
+			return array();
+		} else {
+			$r = json_decode($result->response);
+			if(!empty($r->success)){
+				return $r->channels;
+			} else {
+				return array();
+			}
+		}
+	}
+
+	/**
+	 * Get an array with all of the categories in an account
+	 *
+	 * @return Array Returns an array of with the categories, or an empty array if something is wrong or there are no categories
+	 */
+	function get_categories() {
+		// If we have no token, or we have no country, the API call will fail, so we return an empty array
+		if(!$this->token || !$this->country) return array();
+
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/categories/".$this->country,
+			"GET", "",
+			array(
+				"cache-control: no-cache",
+				"content-type: multipart/form-data; boundary=---011000010111000001101001",
+				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
+				"x-access-token:".$this->token
+			));
+
+		if ($result->err) {
+			return array();
+		} else {
+			$r = json_decode($result->response);
+			if(count($r->categories)){
+				return $r->categories;
+			} else {
+				return array();
+			}
+		}
+	}
+
+	/**
+	 * Get an array with a specific category
+	 *
+	 * @param string $category The slug of the category we want to grab
+	 *
+	 * @return Object Returns an object with the category info, or an empty object if something went wrong
+	 */
+	function get_category($category) {
+		// If we don't have a token, country, or category, the API call will fail
+		if(!$this->token || !$this->country || !$category) return array();
+
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/categories/".$this->country."/".$category,
+			"GET", "",
+			array(
+				"cache-control: no-cache",
+				"content-type: multipart/form-data; boundary=---011000010111000001101001",
+				"postman-token: a917610f-ab5b-ef69-72a7-dacdc00581ee",
+				"x-access-token:".$this->token
+			));
+
+		if ($result->err) {
+			return new stdClass;
+		} else {
+			$r = json_decode($result->response);
+			if(isset($r->category)){
+				return $r->category;
+			} else {
+				return new stdClass;
+			}
+		}
+	}
+
+	/**
+	 * Get information for a specific video
+	 *
+	 * @param string $video_id The id of the video to get info for
+	 *
+	 * @return Object Returns an object with the video, or an empty object if something went wrong
+	 */
+	function get_video($video_id) {
+		// If we don't have a token, country, or video id, the API call will fail
+		if(!$this->token || !$this->country || !$video_id) return array();
+
+		$result = dspdev_api_run_curl_command("http://api.myspotlight.tv/video/play2/" . $video_id,
+			"GET", "",
+			array(
+				"cache-control: no-cache",
+				"content-type: multipart/form-data; boundary=---011000010111000001101001",
+				"x-access-token:" . $this->token
+			));
+
+		if ($result->err) {
+			return new stdClass;
+		} else {
+			$r = json_decode($result->response);
+			if(!empty($r->_id)){
+				return $r;
+			} else {
+				return new stdClass;
+			}
+		}
+	}
+
+	/**
+	 * Get the IP of the user
+	 *
+	 * @return String The IP address of the user
+	 */
 	function get_ip(){
-
 		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
 		//check ip from share internet
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -598,9 +309,6 @@ function curl_command($command, $args = array()){
 		} else {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		}
-
 		return $ip;
-
 	}
-
 }
