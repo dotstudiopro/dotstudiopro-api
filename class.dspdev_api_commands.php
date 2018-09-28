@@ -47,7 +47,7 @@ class dotstudioPRO_API {
 	 * @return String|Boolean Returns the 2 letter country code, or false if there was an issue
 	 */
 	function set_token($token) {
-		$token = $token;
+		$this->token = $token;
 	}
 
 	/**
