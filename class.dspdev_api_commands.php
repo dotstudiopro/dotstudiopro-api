@@ -31,7 +31,7 @@ class dotstudioPRO_API {
 		} else {
 			$r = json_decode($result->response);
 			if($r->success){
-				$token = $r->token;
+				$this->token = $r->token;
 				return $r->token;
 			} else {
 				return false;
